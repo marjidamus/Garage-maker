@@ -5,7 +5,7 @@
 
 void MyString::deallocate()
 {
-    
+
     if (this->string)
     {
         delete[] this->string;
@@ -148,12 +148,12 @@ void MyString::clear()
 
 void MyString::push_back(char c)
 {
-    char temp[this->length + 1];
+    char temp[100];
     strcpy(temp, string);
     this->length++;
     temp[this->length - 1] = c;
     *string = *temp;
-    delete[] temp;
+    
 }
 
 void MyString::printString() const

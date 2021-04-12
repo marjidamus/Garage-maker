@@ -5,5 +5,5 @@
 
 int main()
 {
-    
+    MyString string;
 }
