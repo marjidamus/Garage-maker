@@ -43,11 +43,12 @@ public:
     // MyString operator+(char c) const;
     // MyString operator+(const MyString &rhs) const;
     // const char *c_str() const;
+    
     // bool operator==(const MyString &rhs) const;
     // bool operator<(const MyString &rhs) const;
 
     //Destructor
     ~MyString();
-};
+}; 
 
 #endif

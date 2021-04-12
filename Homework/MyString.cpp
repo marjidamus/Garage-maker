@@ -5,6 +5,7 @@
 
 void MyString::deallocate()
 {
+    
     if (this->string)
     {
         delete[] this->string;
