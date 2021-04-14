@@ -21,8 +21,8 @@ public:
     void setString(const char *str);
 
     //Getters
-    const char *getString() const;
-    size_t getLength() const;
+    const char *c_str() const;
+    size_t size() const;
 
     //Functions
     char &at(size_t pos);
@@ -36,16 +36,16 @@ public:
     bool empty() const;
     void clear();
     void push_back(char c);
-    void printString() const;
-    // void pop_back();
-    // MyString &operator+=(char c);
-    // MyString &operator+=(const MyString &rhs);
-    // MyString operator+(char c) const;
-    // MyString operator+(const MyString &rhs) const;
-    // const char *c_str() const;
-    
-    // bool operator==(const MyString &rhs) const;
-    // bool operator<(const MyString &rhs) const;
+    void pop_back();
+
+    //Overloading operators
+    MyString &operator=(const MyString& other);
+    MyString &operator+=(char c);
+    MyString &operator+=(const MyString &rhs);
+    MyString operator+(char c) const;
+    MyString operator+(const MyString &rhs) const;
+    bool operator==(const MyString &rhs) const;
+    bool operator<(const MyString &rhs) const;
 
     //Destructor
     ~MyString();
