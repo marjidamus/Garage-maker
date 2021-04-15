@@ -131,7 +131,6 @@ void Garage::erase(const char *_regNum)
     for (int i = 0; i < this->numVcles; i++)
     {
         if (strcmp(_regNum, this->vehicles[i]->getRegNum()) == 0)
-            ;
         {
             vcleIndex = i;
             break;
@@ -143,11 +142,19 @@ void Garage::erase(const char *_regNum)
         std::cout << "Vehicle with such license plate does not exist" << std::endl;
         return;
     }
+    this->occpd -= this->vehicles[vcleIndex]->getOccSpace();
+    Vehicle *temp= this->vehicles[this->numVcles-1];
+    this->vehicles[this->numVcles - 1]=this->vehicles[vcleIndex];
+    this->vehicles[vcleIndex]= temp;
+    this->vehicles[this->numVcles - 1]=nullptr;
+    --this->numVcles;
+
+    std::cout<<" Your vehicle is removed from the garage"<<std::endl;
 }
 
 const Vehicle &Garage::at(size_t pos)
 {
-    if(pos < this->numVcles)
+    if (pos < this->numVcles)
     {
         return *(this->vehicles[pos]);
     }
@@ -155,19 +162,46 @@ const Vehicle &Garage::at(size_t pos)
     {
         throw std::out_of_range("This postion does not exist in the garage");
     }
-
 }
 bool Garage::empty() const
 {
-    return this->numVcles==0;
+    return this->numVcles == 0;
 }
 void Garage::clear()
 {
+    if (this->numVcles == 0)
+    {
+        return;
+    }
+    for (int i = 0; i < this->numVcles; i++)
+    {
+        this->vehicles = nullptr;
+    }
+    this->occpd = 0;
+    this->numVcles = 0;
 
+    std::cout << "Your garage is cleared!" << std::endl;
 }
 const Vehicle *Garage::find(const char *_regNum) const
 {
-
+    if (_regNum == nullptr || strcmp(_regNum, "")==0)
+    {
+        return nullptr;
+    }
+    int vcleIndex = -1;
+    for (int i = 0; i < this->numVcles; i++)
+    {
+        if (strcmp(_regNum, this->vehicles[i]->getRegNum()) == 0)
+        {
+            vcleIndex = i;
+            break;
+        }
+    }
+    if (vcleIndex = -1)
+    {
+        return nullptr;
+    }
+    return this->vehicles[vcleIndex];
 }
 
 //Overloading operators
@@ -175,12 +209,11 @@ const Vehicle &Garage::operator[](std::size_t pos) const
 {
     assert(pos < this->numVcles);
     return *(this->vehicles[pos]);
-
 }
 
 Garage &Garage::operator=(const Garage &other)
 {
-    if(this != &other)
+    if (this != &other)
     {
         this->deallocate();
         this->copy(other);
