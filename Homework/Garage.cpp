@@ -8,7 +8,7 @@ void Garage::deallocate()
     {
         for (int i = 0; i < this->capcty; i++)
         {
-            this->vehicles == nullptr;
+            this->vehicles[i] == nullptr;
         }
         delete[] this->vehicles;
     }
@@ -18,7 +18,7 @@ void Garage::copy(const Garage &other)
 {
     if (other.vehicles == nullptr)
     {
-        this->vehicles == nullptr;
+        this->vehicles == other.vehicles;
         this->capcty == 0;
         this->occpd = 0;
         this->numVcles = 0;
@@ -40,6 +40,13 @@ void Garage::copy(const Garage &other)
     this->capcty = other.capcty;
     this->numVcles = other.numVcles;
     this->occpd = other.occpd;
+}
+
+
+
+Garage::Garage(const Garage &other)
+{
+    this->copy(other);
 }
 
 Garage::Garage(std::size_t size)
@@ -74,21 +81,13 @@ Garage::Garage(std::size_t size)
     }
 }
 
-Garage::Garage(const Garage &other)
-{
-    this->copy(other);
-}
-
-std::size_t Garage::size() const
+//Getter
+std::size_t Garage::getNumVcles() const
 {
     return this->numVcles;
 }
 
-Garage::~Garage()
-{
-    this->deallocate();
-}
-
+//Class functions
 void Garage::insert(Vehicle &vcle)
 {
     try
@@ -124,7 +123,7 @@ void Garage::erase(const char *_regNum)
 {
     if (this->empty())
     {
-        std::cout << "Garage is already empty";
+        std::cout << "Garage is already empty"<<std::endl;
         return;
     }
     int vcleIndex = -1;
@@ -137,13 +136,16 @@ void Garage::erase(const char *_regNum)
         }
     }
 
-    if (vcleIndex = -1)
+    if (vcleIndex == -1)
     {
         std::cout << "Vehicle with such license plate does not exist" << std::endl;
         return;
     }
+   
     this->occpd -= this->vehicles[vcleIndex]->getOccSpace();
-    this->vehicles[vcleIndex]=this->vehicles[this->numVcles - 1];
+    Vehicle *temp=this->vehicles[this->numVcles-1];
+    this->vehicles[this->numVcles-1]=this->vehicles[vcleIndex];
+    this->vehicles[vcleIndex]=temp;
     this->vehicles[this->numVcles - 1]=nullptr;
     this->numVcles -=1;
 
@@ -173,7 +175,7 @@ void Garage::clear()
     }
     for (int i = 0; i < this->numVcles; i++)
     {
-        this->vehicles = nullptr;
+        this->vehicles[i] = nullptr;
     }
     this->occpd = 0;
     this->numVcles = 0;
@@ -186,7 +188,9 @@ const Vehicle *Garage::find(const char *_regNum) const
     {
         return nullptr;
     }
+
     int vcleIndex = -1;
+
     for (int i = 0; i < this->numVcles; i++)
     {
         if (strcmp(_regNum, this->vehicles[i]->getRegNum()) == 0)
@@ -195,7 +199,7 @@ const Vehicle *Garage::find(const char *_regNum) const
             break;
         }
     }
-    if (vcleIndex = -1)
+    if (vcleIndex == -1)
     {
         return nullptr;
     }
@@ -217,4 +221,9 @@ Garage &Garage::operator=(const Garage &other)
         this->copy(other);
     }
     return *this;
+}
+
+Garage::~Garage()
+{
+    this->deallocate();
 }

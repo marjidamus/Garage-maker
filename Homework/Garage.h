@@ -19,7 +19,7 @@ public:
     Garage(const Garage &other);
 
     //Getter
-    std::size_t size() const; // vehicles num
+    std::size_t getNumVcles() const; // vehicles num
 
     //Class functions
     void insert(Vehicle &vcle);                     // adds a vehicle to the garage
