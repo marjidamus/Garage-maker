@@ -130,7 +130,7 @@ void Garage::erase(const char *_regNum)
     int vcleIndex = -1;
     for (int i = 0; i < this->numVcles; i++)
     {
-        if (strcmp(_regNum, this->vehicles[i]->getRegNum()) == 0)
+        if (strcmp(this->vehicles[i]->getRegNum(), _regNum) == 0)
         {
             vcleIndex = i;
             break;
@@ -143,11 +143,9 @@ void Garage::erase(const char *_regNum)
         return;
     }
     this->occpd -= this->vehicles[vcleIndex]->getOccSpace();
-    Vehicle *temp= this->vehicles[this->numVcles-1];
-    this->vehicles[this->numVcles - 1]=this->vehicles[vcleIndex];
-    this->vehicles[vcleIndex]= temp;
+    this->vehicles[vcleIndex]=this->vehicles[this->numVcles - 1];
     this->vehicles[this->numVcles - 1]=nullptr;
-    --this->numVcles;
+    this->numVcles -=1;
 
     std::cout<<" Your vehicle is removed from the garage"<<std::endl;
 }

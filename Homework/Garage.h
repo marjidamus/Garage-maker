@@ -33,7 +33,7 @@ public:
     const Vehicle &operator[](std::size_t pos) const; // assert validation
     Garage &operator=(const Garage &other);
     
-
+ 
     //Destructor
     ~Garage();
 };
